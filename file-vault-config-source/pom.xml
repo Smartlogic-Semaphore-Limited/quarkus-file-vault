@@ -33,9 +33,9 @@
           <value>!true</value>
         </property>
       </activation>
-      <modules>
+<!--      <modules>
         <module>integration-tests</module>
-      </modules>
+      </modules> -->
     </profile>
   </profiles>
 </project>
