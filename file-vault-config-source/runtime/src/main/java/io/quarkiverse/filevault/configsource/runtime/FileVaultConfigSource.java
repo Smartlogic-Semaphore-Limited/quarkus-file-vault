@@ -10,32 +10,35 @@ import io.quarkiverse.filevault.util.KeyStoreUtil;
 import io.quarkiverse.filevault.util.KeyStoreUtil.KeyStoreEntry;
 
 public class FileVaultConfigSource implements ConfigSource {
-    private Map<String, KeyStoreEntry> storeProperties = new HashMap<>();
-    private int ordinal;
+  private Map<String, KeyStoreEntry> storeProperties = new HashMap<>();
 
-    public FileVaultConfigSource(FileVaultBootstrapConfig config) {
-        storeProperties = KeyStoreUtil.readKeyStore(config.keystorePath.orElse(null),
-                config.keystoreSecret.orElse(null), config.encryptionKey.orElse(null));
-        ordinal = config.configOrdinal;
-    }
+  public FileVaultConfigSource(FileVaultBootstrapConfig config) {
+    storeProperties = KeyStoreUtil.readKeyStore(config.keystorePath.orElse(null),
+        config.keystoreSecret.orElse(null), config.encryptionKey.orElse(null));
+  }
 
-    @Override
-    public String getName() {
-        return "file-vault-config-source";
-    }
+  public FileVaultConfigSource(Map<String, KeyStoreEntry> properties) {
+    storeProperties = properties;
+  }
 
-    @Override
-    public int getOrdinal() {
-        return ordinal;
-    }
+  @Override
+  public String getName() {
+    return "file-vault-config-source";
+  }
 
-    @Override
-    public Set<String> getPropertyNames() {
-        return Set.copyOf(storeProperties.keySet());
-    }
+  @Override
+  public int getOrdinal() {
+    return 270;
+  }
 
-    @Override
-    public String getValue(String propertyName) {
-        return storeProperties.containsKey(propertyName) ? storeProperties.get(propertyName).getValue() : null;
-    }
+  @Override
+  public Set<String> getPropertyNames() {
+    return Set.copyOf(storeProperties.keySet());
+  }
+
+  @Override
+  public String getValue(String propertyName) {
+    return storeProperties.containsKey(propertyName) ? storeProperties.get(propertyName).getValue()
+        : null;
+  }
 }

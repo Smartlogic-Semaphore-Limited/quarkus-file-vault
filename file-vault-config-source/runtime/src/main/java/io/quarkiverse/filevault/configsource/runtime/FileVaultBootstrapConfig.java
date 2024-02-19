@@ -6,7 +6,7 @@ import io.quarkus.runtime.annotations.ConfigItem;
 import io.quarkus.runtime.annotations.ConfigPhase;
 import io.quarkus.runtime.annotations.ConfigRoot;
 
-@ConfigRoot(name = "file.vault-config-source", phase = ConfigPhase.BOOTSTRAP)
+@ConfigRoot(name = "file.vault-config-source", phase = ConfigPhase.RUN_TIME)
 public class FileVaultBootstrapConfig {
 
     /**
