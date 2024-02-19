@@ -11,6 +11,19 @@
   <version>999-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Quarkus - File Vault - Parent</name>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>http://cart:8081/repository/maven-public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
   <scm>
     <url>https://github.com/Smartlogic-Semaphore-Limited/quarkus-file-vault</url>
     <connection>scm:git:git://github.com//Smartlogic-Semaphore-Limited/quarkus-file-vault.git</connection>
