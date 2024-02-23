@@ -1,16 +1,19 @@
 package io.quarkiverse.filevault.configsource.runtime;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
 import io.quarkiverse.filevault.util.KeyStoreUtil;
 import io.smallrye.config.ConfigSourceContext;
 import io.smallrye.config.ConfigSourceFactory;
-import io.smallrye.config.SmallRyeConfig;
-import io.smallrye.config.SmallRyeConfigBuilder;
 
 public class FileVaultConfigSourceFactory implements ConfigSourceFactory {
 
@@ -20,24 +23,30 @@ public class FileVaultConfigSourceFactory implements ConfigSourceFactory {
 
   @Override
   public Iterable<ConfigSource> getConfigSources(ConfigSourceContext context) {
-    SmallRyeConfig config = new SmallRyeConfigBuilder()
-        .withSources(new ConfigSourceContext.ConfigSourceContextConfigSource(context))
-        .withMappingIgnore("quarkus.**").build();
-
-    String keyStorePath =
-        config.isPropertyPresent(KEYSTORE_PATH) ? config.getValue(KEYSTORE_PATH, String.class)
-            : null;
-    String keyStoreSecret =
-        config.isPropertyPresent(KEYSTORE_SECRET) ? config.getValue(KEYSTORE_SECRET, String.class)
-            : null;
-    String keyStoreKey =
-        config.isPropertyPresent(KEYSTORE_KEY) ? config.getValue(KEYSTORE_KEY, String.class) : null;
-    if (keyStorePath != null) {
-      Map<String, KeyStoreUtil.KeyStoreEntry> stringKeyStoreEntryMap =
-          KeyStoreUtil.readKeyStore(keyStorePath, keyStoreSecret, keyStoreKey);
-      return List.of(new FileVaultConfigSource(stringKeyStoreEntryMap));
-    } else {
+    String configLocation = System.getProperty("quarkus.keystore.config");
+    if (configLocation == null) {
+      configLocation = System.getProperty("quarkus.config.locations");
+    }
+    if (configLocation == null || !new File(configLocation).exists()) {
       return new ArrayList<>();
     }
+    Properties properties = new Properties();
+    try {
+      InputStream stream = new FileInputStream(configLocation);
+      properties.load(stream);
+      String keyStorePath = properties.getProperty(KEYSTORE_PATH);
+      String keyStoreSecret = properties.getProperty(KEYSTORE_SECRET);
+      String keyStoreKey = properties.getProperty(KEYSTORE_KEY);
+      if (keyStorePath != null) {
+        Map<String, KeyStoreUtil.KeyStoreEntry> stringKeyStoreEntryMap =
+            KeyStoreUtil.readKeyStore(keyStorePath, keyStoreSecret, keyStoreKey);
+        return List.of(new FileVaultConfigSource(stringKeyStoreEntryMap));
+      } else {
+        return new ArrayList<>();
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
   }
 }
