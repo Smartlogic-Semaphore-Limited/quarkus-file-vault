@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.smartlogic</groupId>
     <artifactId>smartlogic-parent</artifactId>
-    <version>0.0.203</version>
+    <version>0.0.207</version>
   </parent>
   <groupId>io.quarkiverse.file-vault</groupId>
   <artifactId>quarkus-file-vault-parent</artifactId>
@@ -14,7 +14,7 @@
   <repositories>
     <repository>
       <id>central</id>
-      <url>http://cart:8081/repository/maven-public/</url>
+      <url>http://sl-cart01:8081/repository/maven-public/</url>
       <releases>
         <enabled>true</enabled>
       </releases>
