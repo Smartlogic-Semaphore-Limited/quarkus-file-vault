@@ -24,17 +24,17 @@
       </snapshots>
     </repository>
   </repositories>
-  <scm>
-    <url>https://github.com/Smartlogic-Semaphore-Limited/quarkus-file-vault</url>
-    <connection>scm:git:git://github.com//Smartlogic-Semaphore-Limited/quarkus-file-vault.git</connection>
-    <developerConnection>scm:git:git@github.com:Smartlogic-Semaphore-Limited/quarkus-file-vault.git</developerConnection>
-  </scm>
   <modules>
     <module>file-vault-common</module>
     <module>file-vault-credentials-provider</module>
     <module>file-vault-config-source</module>
     <module>vault-utils</module>
   </modules>
+  <scm>
+    <connection>scm:git:git@github.com:quarkiverse/quarkus-file-vault.git</connection>
+    <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-file-vault.git</developerConnection>
+    <url>https://github.com/quarkiverse/quarkus-file-vault</url>
+  </scm>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
@@ -42,7 +42,7 @@
     <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus.version>3.6.9</quarkus.version>
+    <quarkus.version>3.19.1</quarkus.version>
   </properties>
   <dependencyManagement>
     <dependencies>
